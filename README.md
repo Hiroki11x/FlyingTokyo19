@@ -1,14 +1,16 @@
 # FlyingTokyo 19 : An Introduction to Cinder, Hot-Reloading and Runtime-Compiled C++
 
-Flying Tokyo #19の資料にコメント加えたものです
-
 First thing first; Please clone this repository, start the install script and go grab yourself a cup of coffee (this is going to clone, build and install Cinder, Llvm, Clang, Cling and other smaller piece of code ... it is going to take a while!) :  
 ```shell
 git clone https://github.com/simongeilfus/FlyingTokyo19.git
 cd FlyingTokyo19
 
-#Cmake入れとかなきゃダメっぽい
-sudo port install cmake +gui
+#Xcodeのcommand line toolsが入ってるかの確認
+xcode-select --install
+
+#Cmake入れとかなきゃダメっぽい??
+#でもmacportsからのcmakeだとpathがうまくいかなくなるので、普通に本家からインストール
+#sudo port install cmake +gui
 
 sh install.sh
 ```
@@ -592,11 +594,10 @@ ofRectangle(10,10,100,100);
 gl::drawSolidRect(Rectf(vec2(10),vec(100)));
 ```
 
-
 > 1. C++11はいいぞって話
 > 2. openFrameworksはProcessingと同じアーキテクチャ
 > 3. Designerに使いやすいように
-> 4. Cinderはプログラマー向け C++erになろうな
+> 4. Cinderはプログラマー向け
 
 ___
 ###2. Modern C++ and Cinder
@@ -749,7 +750,25 @@ The capture-list comes from the fact that lambdas have their own private scope a
 	- [=] captures all automatic variables odr-used in the body of the lambda by value
 	- [&] captures all automatic variables odr-used in the body of the lambda by reference
 
+
+> 1. lambdaに関して引用
+> 2. 「ラムダ式(lambda expressions)」は、簡易的な関数オブジェクトをその場で定義するための機能である。
+> 3. この機能によって、「高階関数(関数を引数もしくは戻り値とする関数)」をより使いやすくできる。
+
+```cpp
+auto plus = [](int a, int b) { return a + b; };
+int result = plus(2, 3); // result == 5
+```
+
+> 4. ここでは、`[](int a, int b) { return a + b; }`というコードがラムダ式に当たる。
+> 5. このラムダ式は、「int型のパラメータを2つとり、それらを足し合わせたint型オブジェクトを返す関数オブジェクト」を定義している。ここでは戻り値の型を明記していないが、その場合はラムダ式のreturn文から、戻り値の型が推論される。
+
+
 `std::bind` simply allows (among other things) to bind together an object and a member function in an easy and standard way.
+
+> 1. auto g = bind(f,a); の時
+> 2. g()の呼び出しはf(a)の呼び出しに等価
+
 ```c++
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -759,6 +778,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+//変更加えないので参照渡し
 void registerCallback( const function<void()> &callback );
 
 class CinderApp : public App {
@@ -875,7 +895,8 @@ auto option = Options().name( "Pastrami" ).position( vec2( 10.0f ) ).radius( 1.2
 ```
 
 > 1. コード長くなるかもだけど、何やってるかが見えやすくなる
-
+> 2. runtime compile 使うとたまに意味わかんないエラーになる
+> 3. cinder/blocks dirはoFでいうとこのaddon
 
 ___
 ###3. User Interface
@@ -930,6 +951,9 @@ void CinderApp::update()
 	}
 }
 ```  
+
+> 描画のサポートが熱いよ
+
 ___
 ###4. Graphics
 
@@ -971,6 +995,9 @@ trimesh.appendTriangle( 0, 1, 2 );
 
 #####4.3. [Batch.](/)
 
+> 1. batchをすることで、CPU上の値をGPUに避難させれらる
+> 2. vbomeshとかよりも推奨
+
 Today graphics in OpenGL are governed by `Vertex Buffer Objects`, `Glsl Programs` and `Vertex Arrays`. The first one describe a list of vertices, its properties (like colors or texture coordinates) and how they are connected to form faces and polygons and the second one describes how the faces of the first are transformed and shaded. It replace the old fixed-function pipeline where a Glsl Program now has to be bound all the time for anything to get rendered. Simply put, the last one allows to group things together in a way that the Graphic Card understand.
 
 Cinder provides an easy interface that wraps and takes care of all the above called a `gl::Batch`.
@@ -995,3 +1022,6 @@ batch->draw();
 
 ___
 ###5. Runtime-Compiled C++
+
+> ここに全部まとまってる
+> https://github.com/simongeilfus/Cinder-Runtime

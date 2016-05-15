@@ -17,9 +17,14 @@
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
-		6278568B86C248C0B955D505 /* CinderAppStructure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 700DD272FED2466F81DAF3BB /* CinderAppStructure.cpp */; };
-		861D5D103AE94FF489342885 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = CDA1042D734543168EA85B02 /* CinderApp.icns */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		5BEB3C0A4A8049E6AD429332 /* Watchdog.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6E3AC0161411C8C5A5002 /* Watchdog.h */; };
+		333CA63A548A445699E91B98 /* runtime_app.h in Headers */ = {isa = PBXBuildFile; fileRef = 2797000C10424BBE8490A544 /* runtime_app.h */; };
+		BF22E8140804436F94D072B4 /* runtime_ptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 45B03FBE03224434A65A8952 /* runtime_ptr.h */; };
+		7869B06DCDF14F9984DFAE32 /* CinderProject01_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 392DA9016F1541839B25ABB7 /* CinderProject01_Prefix.pch */; };
+		3534CA3A0CFA47FF8839904E /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = DC6209D13A694D539D320349 /* CinderApp.icns */; };
+		9EE9C98F87CD40BAA84B8189 /* Resources.h in Headers */ = {isa = PBXBuildFile; fileRef = 60EA5DEC2AFF4A769DCF4680 /* Resources.h */; };
+		587FE8628203415A8D1BAF30 /* CinderProject01App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B44A838EB9F4491968DEC30 /* CinderProject01App.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,12 +41,15 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
-		700DD272FED2466F81DAF3BB /* CinderAppStructure.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CinderAppStructure.cpp; path = ../src/CinderAppStructure.cpp; sourceTree = "<group>"; };
-		7DDC79F6843F43EC90EE30D8 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* CinderAppStructure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CinderAppStructure.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDA1042D734543168EA85B02 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
-		DDEDBE9251EA487781F23345 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1A53490A05941019BE16479 /* CinderAppStructure_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = CinderAppStructure_Prefix.pch; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* CinderProject01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CinderProject01.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B44A838EB9F4491968DEC30 /* CinderProject01App.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../src/CinderProject01App.cpp; sourceTree = "<group>"; name = CinderProject01App.cpp; };
+		60EA5DEC2AFF4A769DCF4680 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../include/Resources.h; sourceTree = "<group>"; name = Resources.h; };
+		DC6209D13A694D539D320349 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; name = CinderApp.icns; };
+		8623FD7E6ABB41918DED838D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; name = Info.plist; };
+		392DA9016F1541839B25ABB7 /* CinderProject01_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = CinderProject01_Prefix.pch; sourceTree = "<group>"; name = CinderProject01_Prefix.pch; };
+		45B03FBE03224434A65A8952 /* runtime_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "../../../cinder/blocks/Cinder-Runtime/include/runtime_ptr.h"; sourceTree = "<group>"; name = runtime_ptr.h; };
+		2797000C10424BBE8490A544 /* runtime_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "../../../cinder/blocks/Cinder-Runtime/include/runtime_app.h"; sourceTree = "<group>"; name = runtime_app.h; };
+		C0C6E3AC0161411C8C5A5002 /* Watchdog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../cinder/blocks/Watchdog/include/Watchdog.h; sourceTree = "<group>"; name = Watchdog.h; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,17 +74,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01B97315FEAEA392516A2CEA /* Blocks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Blocks;
-			sourceTree = "<group>";
-		};
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				700DD272FED2466F81DAF3BB /* CinderAppStructure.cpp */,
+				7B44A838EB9F4491968DEC30 /* CinderProject01App.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -111,12 +112,12 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* CinderAppStructure.app */,
+				8D1107320486CEB800E47090 /* CinderProject01.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA /* CinderAppStructure */ = {
+		29B97314FDCFA39411CA2CEA /* CinderProject01 */ = {
 			isa = PBXGroup;
 			children = (
 				01B97315FEAEA392516A2CEA /* Blocks */,
@@ -126,14 +127,56 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
-			name = CinderAppStructure;
+			name = CinderProject01;
+			sourceTree = "<group>";
+		};
+		574EAF3756034E85852C6C45 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				45B03FBE03224434A65A8952 /* runtime_ptr.h */,
+				2797000C10424BBE8490A544 /* runtime_app.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		823502F294294368A57E8EA6 /* Cinder-Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				574EAF3756034E85852C6C45 /* include */,
+			);
+			name = "Cinder-Runtime";
+			sourceTree = "<group>";
+		};
+		089B6C42F54A4AE18B378FFB /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6E3AC0161411C8C5A5002 /* Watchdog.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		F966BAA556274291AC5FBAA9 /* Watchdog */ = {
+			isa = PBXGroup;
+			children = (
+				089B6C42F54A4AE18B378FFB /* include */,
+			);
+			name = Watchdog;
+			sourceTree = "<group>";
+		};
+		01B97315FEAEA392516A2CEA /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				823502F294294368A57E8EA6 /* Cinder-Runtime */,
+				F966BAA556274291AC5FBAA9 /* Watchdog */,
+			);
+			name = Blocks;
 			sourceTree = "<group>";
 		};
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				7DDC79F6843F43EC90EE30D8 /* Resources.h */,
-				F1A53490A05941019BE16479 /* CinderAppStructure_Prefix.pch */,
+				60EA5DEC2AFF4A769DCF4680 /* Resources.h */,
+				392DA9016F1541839B25ABB7 /* CinderProject01_Prefix.pch */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -141,8 +184,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CDA1042D734543168EA85B02 /* CinderApp.icns */,
-				DDEDBE9251EA487781F23345 /* Info.plist */,
+				DC6209D13A694D539D320349 /* CinderApp.icns */,
+				8623FD7E6ABB41918DED838D /* Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -159,9 +202,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* CinderAppStructure */ = {
+		8D1107260486CEB800E47090 /* CinderProject01 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CinderAppStructure" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CinderProject01" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -171,10 +214,10 @@
 			);
 			dependencies = (
 			);
-			name = CinderAppStructure;
+			name = CinderProject01;
 			productInstallPath = "$(HOME)/Applications";
-			productName = CinderAppStructure;
-			productReference = 8D1107320486CEB800E47090 /* CinderAppStructure.app */;
+			productName = CinderProject01;
+			productReference = 8D1107320486CEB800E47090 /* CinderProject01.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -182,9 +225,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			attributes = {
-			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CinderAppStructure" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CinderProject01" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -194,11 +235,11 @@
 				French,
 				German,
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA /* CinderAppStructure */;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CinderProject01 */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* CinderAppStructure */,
+				8D1107260486CEB800E47090 /* CinderProject01 */,
 			);
 		};
 /* End PBXProject section */
@@ -208,7 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				861D5D103AE94FF489342885 /* CinderApp.icns in Resources */,
+				3534CA3A0CFA47FF8839904E /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6278568B86C248C0B955D505 /* CinderAppStructure.cpp in Sources */,
+				587FE8628203415A8D1BAF30 /* CinderProject01App.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,23 +271,28 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
+				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = CinderAppStructure_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CinderProject01_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder_d.a\"";
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
+					"\"../../../cinder/blocks/Cinder-Runtime/lib/lib/libCling.a\"",
+					"\"-lncurses\"",
+					../../../cinder/lib/libcinder_d.dylib,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = CinderAppStructure;
+				PRODUCT_NAME = CinderProject01;
 				SYMROOT = ./build;
 				WRAPPER_EXTENSION = app;
 			};
@@ -262,18 +308,23 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = CinderAppStructure_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"NDEBUG=1",
 					"$(inherited)",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CinderProject01_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder.a\"";
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/libcinder.a\"",
+					"\"../../../cinder/blocks/Cinder-Runtime/lib/lib/libCling.a\"",
+					"\"-lncurses\"",
+					../../../cinder/lib/libcinder.dylib,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = CinderAppStructure;
+				PRODUCT_NAME = CinderProject01;
 				STRIP_INSTALLED_PRODUCT = YES;
 				SYMROOT = ./build;
 				WRAPPER_EXTENSION = app;
@@ -284,7 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CINDER_PATH = ../../../cinder;
+				CINDER_PATH = "../../../cinder";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
 				CLANG_CXX_LIBRARY = "libc++";
 				ENABLE_TESTABILITY = YES;
@@ -294,7 +345,12 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include";
+				USER_HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\" ../include",
+					"\"../../../cinder/blocks/Cinder-Runtime/include\"",
+					"\"../../../cinder/blocks/Cinder-Runtime/lib/include\"",
+					../../../cinder/blocks/Watchdog/include,
+				);
 			};
 			name = Debug;
 		};
@@ -302,7 +358,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CINDER_PATH = ../../../cinder;
+				CINDER_PATH = "../../../cinder";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -310,14 +366,19 @@
 				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include";
+				USER_HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\" ../include",
+					"\"../../../cinder/blocks/Cinder-Runtime/include\"",
+					"\"../../../cinder/blocks/Cinder-Runtime/lib/include\"",
+					../../../cinder/blocks/Watchdog/include,
+				);
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CinderAppStructure" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CinderProject01" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
@@ -326,7 +387,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CinderAppStructure" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CinderProject01" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
