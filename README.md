@@ -1,17 +1,17 @@
 # FlyingTokyo 19 : An Introduction to Cinder, Hot-Reloading and Runtime-Compiled C++
 
+Flying Tokyo #19の資料にコメント加えたものです
+
 First thing first; Please clone this repository, start the install script and go grab yourself a cup of coffee (this is going to clone, build and install Cinder, Llvm, Clang, Cling and other smaller piece of code ... it is going to take a while!) :  
 ```shell
 git clone https://github.com/simongeilfus/FlyingTokyo19.git
 cd FlyingTokyo19
+
+#Cmake入れとかなきゃダメっぽい
+sudo port install cmake +gui
+
 sh install.sh
 ```
-
-[https://www.dropbox.com/s/cm84m5halg54p5p/lib.zip?dl=0](https://www.dropbox.com/s/cm84m5halg54p5p/lib.zip?dl=0)
-```
-unzip and copy to cinder/blocks/Cinder-Runtime/
-```
-
 ___
 
 ### Table of contents
@@ -100,14 +100,16 @@ void ofApp::draw()
 ```
 
 If you forget about cosmetics and don't get too much into details both Cinder and oF work the same in terms of general app structure. They both have a main entry point and a `App` class from which all apps inherit.  
-  
+
 You can see [here a cinder app organised using oF approach to structuring the source code](apps/101 oFAppStructure/src). Both are extremely similar when organising the code that way :
+
+`main.cpp`は`CINDER_APP( CinderApp, RendererGl )`のマクロで省略できる
 
 `main.cpp`
 ```c++
 #include "cinder/app/RendererGl.h"
 #include "ofApp.h"
-int main( int argc, char* argv[] )
+int main( int argc, char* argv[] )//ちゃんと標準のcppの書き方をする
 {
 	ci::app::RendererRef renderer( new ci::app::RendererGl() );
 	ci::app::AppMac::main<ofApp>( renderer, "ofApp", argc, argv );
@@ -119,7 +121,8 @@ int main( int argc, char* argv[] )
 ```c++
 #pragma once
 #include "cinder/app/App.h"
-class ofApp : public ci::app::App {
+class ofApp : public ci::app::App {//cinderのAppクラスを継承
+//ちゃんとoverrideを明示
   public:
 	void setup() override;
 	void update() override;
@@ -142,9 +145,9 @@ void ofApp::draw()
 ```
 
 Even if the two versions are really similar in a way, there's one striking difference and it is definitely more of a design choice than a value difference. openFrameworks seems to be designed to be simple and easy to read for non-programmers while Cinder is written using a really standard and modern form of C++.  
-  
+
 It's not a big deal, and doesn't change much for the user but another obvious thing is how the `main` function is implemented. Where oF made it much simpler (and probably avoiding unecessary questions like "why does the main function returns an int or why does it have those weird arguments") Cinder is sticking to the standard way of writing a `main` function. Not a big deal but much more standard compliant.  
-  
+
 Here's what Bjarne Stroustrups and the ISOCPP say about this; Stroustrups is actually much more strict about it:
 > "The definition `void main() { /* ... */ }` is not and never has been C++, nor has it even been C."  
 
@@ -161,8 +164,11 @@ Cinder has a really simple approach to structuring the source files and the app 
 It keeps things simple and centralized and makes sharing code snippets and small test cases much easier as they can live in a single gist page (for example most snippet here can be copy and pasted in any project and will work straight away).  
 
 At some point when the application grows bigger I sometimes split it into a header and implementation file, but I'm usually happy with the base structure.
-  
+
 The `main` function is wrapped into a handy `CINDER_APP` macro that expands to the proper version depending on the platform the app is built on. This reduces the code above to this short one for the whole app:  
+
+以下のような感じでいっぱいファイル使わなくてもかける、センターライズ
+
 ```c++
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -190,6 +196,7 @@ void CinderApp::draw()
 }
 
 CINDER_APP( CinderApp, RendererGl )
+//このマクロのおかげでmain.cppみたいなのを書かなくて済むようになるが、マクロなので環境が異なる場合は気をつける
 ```
 
 #####1.3. [App constructor, destructor and cleanup method.](apps/103 AppConstructor/src/AppConstructorApp.cpp)
@@ -209,6 +216,7 @@ public:
 	string mSomeMember;
 };
 
+//コンストラクターちゃんと書こうなみたいな風習、今までのoFの方が標準じゃない
 AppConstructorApp::AppConstructorApp()
 : mSomeMember( "World" ) // the member initializer list is a convenient place to initialize your variables
 {
@@ -218,7 +226,7 @@ AppConstructorApp::AppConstructorApp()
 CINDER_APP( AppConstructorApp, RendererGl )
 ```
 
-You can also use a destructor the same way or override the `cleanup` method if you need to release resources before the app destruction: 
+You can also use a destructor the same way or override the `cleanup` method if you need to release resources before the app destruction:
 ```c++
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -258,6 +266,10 @@ CINDER_APP( AppConstructorApp, RendererGl )
 
 #####1.4. [App Settings.](apps/104 AppSettings/src/AppSettingsApp.cpp)
 Cinder also provides a series of functions to setup the app the way you want. Change the window position, set it fullscreen, add a window title, etc... It is fine to set this up in the app constructor or setup method:   
+
+> 1. Runtime Compile
+> 2. アプリケーション起動した状態で、setup()の変更ですらすぐ反映する
+
 ```c++
 void CinderApp::setup()
 {
@@ -266,6 +278,12 @@ void CinderApp::setup()
 }
 ```
 But most of the time you want to access more specific settings, want those settings to be set before the app actually starts (and avoid any unwantend flickering) or simply want to do it the proper/cleaner way. The `CINDER_APP` macro accepts a third argument that is the prepareSettings function. It can be a free-standing/static function or a lambda.  
+
+> 1. デフォルトの設定を記述できる
+> 2. 特にsetupとかで記述しなくて良い
+> 3. 以下のやり方ではラムダ使って`[]( App::Settings *settings`みたいなこと書いてる
+
+
 ```c++
 CINDER_APP( AppSettings, RendererGl, []( App::Settings *settings ) {
 	settings->setWindowSize( ivec2( 200, 20 ) );
@@ -274,7 +292,10 @@ CINDER_APP( AppSettings, RendererGl, []( App::Settings *settings ) {
 })
 ```
 
-This is a bit less compact and elegant but it does exactly the same with a static function: 
+This is a bit less compact and elegant but it does exactly the same with a static function:
+
+> 1. mySettingsみたいなのを定義してマクロを用いて設定をすることも可能
+
 ```c++
 void mySettings( App::Settings *settings )
 {
@@ -286,6 +307,9 @@ CINDER_APP( AppSettings, RendererGl, mySettings )
 ```
 
 The settings function could also be used for more specific/advanced settings. For example you could decide to start the app on the secondary display if more than one display is detected:  
+
+> 1. 以下の例では二個ディスプレイが繋がっていれば、二個目のディスプレイを使うよみたいな設定
+
 ```c++
 CINDER_APP( AppSettings, RendererGl, []( App::Settings *settings ) {
 	auto displays = Display::getDisplays();
@@ -294,6 +318,12 @@ CINDER_APP( AppSettings, RendererGl, []( App::Settings *settings ) {
 ```
 
 The `CINDER_APP` macro also provides a way to specify options for the **OpenGL Renderer**. Such as the desired version, the amount of antialiasing or the presence of a stencil buffer for example :  
+
+> 1. ステンシルは周りのセルがどうのみたいな計算の一般概念？！
+> 2. anti aliasingがよくわかんない
+> 3. アンチエイリアス (anti-aliasing) は、サンプリングやダウンサンプリングでエイリアシングが起きないようにするための処理。画像に対して行なうと、ジャギー（ピクセルのギザギザ）が目立たなくなる。
+
+
 ```c++
 // this will create a renderer with a multisample anti aliasing of 16 and a stencil buffer
 CINDER_APP( AppSettings, RendererGl( RendererGl::Options().msaa( 16 ).stencil() )
@@ -318,7 +348,7 @@ public:
 	void update() override {}
 	//! Performs any rendering once-per-loop or in response to OS-prompted requests for refreshes.
 	void draw() override { gl::clear(); }
-	
+
 	//! Receives mouse-down events.
 	void mouseDown( MouseEvent event ) override {}
 	//! Receives mouse-up events.
@@ -329,14 +359,14 @@ public:
 	void mouseMove( MouseEvent event ) override {}
 	//! Receives mouse-drag events.
 	void mouseDrag( MouseEvent event ) override {}
-	
+
 	//! Responds to the beginning of a multitouch sequence
 	void touchesBegan( TouchEvent event ) override {}
 	//! Responds to movement (drags) during a multitouch sequence
 	void touchesMoved( TouchEvent event ) override {}
 	//! Responds to the end of a multitouch sequence
 	void touchesEnded( TouchEvent event ) override {}
-	
+
 	//! Receives key-down events.
 	void keyDown( KeyEvent event ) override {}
 	//! Receives key-up events.
@@ -344,8 +374,9 @@ public:
 	//! Receives window resize events.
 	void resize() override {}
 	//! Receives file-drop events.
+	// fileをここでなんかできる、すげえ
 	void fileDrop( FileDropEvent event ) override {}
-	
+
 	//! Cleanups any resources before app destruction
 	void cleanup() override {}
 };
@@ -355,7 +386,7 @@ CINDER_APP( AppEventsApp, RendererGl )
 
 #####1.6. [Extra flexibility with signals.](apps/106 FlexibilityWithSignals/src/FlexibilityWithSignalsApp.cpp)
 Cinder offers another level of flexibility in how you deal with the app events thanks to its use of "signals". IMO Cinder's signal implementation is based on the best available out there. It is fast, reliable and well designed.  
-It allows you to structure things exactly the way you want : 
+It allows you to structure things exactly the way you want :
 ```c++
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -375,18 +406,48 @@ public:
 			getWindow()->setTitle( to_string( (int) getAverageFps() ) + " fps" );
 		} );
 	}
-	
+
 };
 CINDER_APP( FlexibilityWithSignals, RendererGl )
 ```
 
+> 以下もまったく一緒のはず
+
+```c++
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
+#include "cinder/gl/gl.h"
+
+using namespace ci;
+using namespace ci::app;
+using namespace std;
+
+class FlexibilityWithSignals : public App {
+public:
+	FlexibilityWithSignals(){
+	}
+
+	void setup() override{
+	    getWindow()->setTitle( to_string( (int) getAverageFps() ) + " fps" );
+	}
+
+};
+CINDER_APP( FlexibilityWithSignals, RendererGl )
+```
+
+
 And more importantly allows to give other classes the ability to listen to specific events. Which clearly simplify their use and makes the user code shorter and nicer.   
 ```c++
-// For example, giving a reference to the window to a CameraUI object 
-// will let the constructor connect with any signal it would need to 
+// For example, giving a reference to the window to a CameraUI object
+// will let the constructor connect with any signal it would need to
 // take care of the UI. Saving you to write mCameraUi->mouseDown, mCameraUi->mouseDrag, etc ...
 mCameraUi = CameraUi( &mCamera, getWindow() );
 ```
+
+> 1. `CameraUI`はいろんなイベントを受け取る、マウスのドラッグとか
+> 2. そのためにコンストラクタの第二引数にgetWindow()を入れてた
+> 3. 第一引数は`CameraPerp`のインスタンスを入れた
+> 4. SignalはExtremelyらしい
 
 We could from anywhere in the app get a reference to the App or to the Window and use any of its signals. Here's a very short example of a simple button class :
 ```c++
@@ -396,16 +457,19 @@ public:
 	void draw();
 protected:
 	string mName;
-	Rectf mBounds;	
+	Rectf mBounds;
 };
 
 Button::Button( const string &name, const Rectf &rect )
 : mName( name ), mBounds( rect )
 {
 	// subscribe to mouse down event of the app window
+	// oFにもイベントはあるけど、こっちの方が標準的に使われてる気がする
 	app::getWindow()->getSignalMouseDown().connect( [this]( app::MouseEvent event ) {
 		// Check if the mouse is inside the bounds of this button
+		//これだけで、ボタンの内部にクリックされた点があるか判定できる
 		if( mBounds.contains( event.getPos() ) ) {
+
 			app::console() << "Button " << mName << " clicked!" << std::endl;		
 		}		
 	});
@@ -418,8 +482,16 @@ void Button::draw()
 
 ```
 
+> 1. イベント系はSignalみたいなのを使ってる
+> 2. OSXのコンパイラだから`bind()`使ってオッケー
+> 3. `glClear()`を`ofBackground()`みたいに使ってね！
+
 #####1.7. [Multiple Windows.](apps/107 MultipleWindow/src/MultipleWindowApp.cpp)
 Adding more than one window to your app works the same way. You can use the `createWindow` shortcut from anywhere in your code, or do it in the prepareSettings function with `App::Settings::prepareWindow` :
+
+> 1. CinderならMultipleWindowも簡単
+> 2. `CreateWindow()`で複製可能、ただし、イベントリスナつけてなかったりするとイベントは受け取らない
+> 3. `getWindowIndex()`で何番目のWindowか取得できそこで場合分けも可能
 
 ```c++
 #include "cinder/app/App.h"
@@ -452,7 +524,7 @@ CINDER_APP( MultipleWindowApp, RendererGl, []( App::Settings *settings ) {
 })
 ```
 
-The use of `signals` become much more obvious in a multi-window situation. You could probably keep the usual `draw` method and test which window the method is currently drawing; like so : 
+The use of `signals` become much more obvious in a multi-window situation. You could probably keep the usual `draw` method and test which window the method is currently drawing; like so :
 ```c++
 void CinderApp::draw()
 {
@@ -466,6 +538,10 @@ void CinderApp::draw()
 ```
 
 But `signals` are made to make that situation easier and more elegant, and it is definitely much cleaner to write it like this :
+
+> 1. 以下のようにSettingで描画の書き分けをしておくのが賢いやり方
+> 2. 動的にWindowも増やしていくこともできる
+
 ```c++
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -504,6 +580,23 @@ The same can be said of Processing `rect( x, y, w, h )` and openFrameworks `ofDr
 
 This approach becomes obvious when you look at Cinder's graphic API and even more when looking at its OpenGL abstraction layer.  
 
+> 1. Cinderはかなりオブジェクト指向っぽい
+> 2. `ofBackground(0,0,0)`みたいなのがあるが、floatぶち込んで何やってるかわかんないよね
+> 3. Cinderだと`gl::Clear(Color(0,0,0))`みたいにして、直接値打ち込まないようにしてる
+> 4. 例えば以下のような違いが
+
+```cpp
+//openFrameworks
+ofRectangle(10,10,100,100);
+//Cinder
+gl::drawSolidRect(Rectf(vec2(10),vec(100)));
+```
+
+
+> 1. C++11はいいぞって話
+> 2. openFrameworksはProcessingと同じアーキテクチャ
+> 3. Designerに使いやすいように
+> 4. Cinderはプログラマー向け C++erになろうな
 
 ___
 ###2. Modern C++ and Cinder
@@ -513,6 +606,10 @@ I would strongly advise to have a look to [David Wicks / sansumbrella.com](http:
 
 #####2.1. [Namespaces.](apps/)
 Namespaces can't really be called a modern feature but as we have seen previously Cinder relies a lot on them. Namespaces are just a convenient way to group sections of code. It allows us to stick to most logical names for classes and functions without caring too much about name conflicts.
+
+> 1. oFは関数の頭にofがつくがcinderはそんな変なことしないので、名前が被りまくるから、NameSpaceめっちゃ使ってる
+> 2. スコープ解決演算子でプログラマが丁寧にたいおうすべき
+
 ```c++
 namespace MyLibrary {
 	struct vec2 {
@@ -521,8 +618,11 @@ namespace MyLibrary {
 }
 ```
 From there you can access the `vec2` type by writting `MyLibrary::vec2` or by adding a `using namespace MyLibrary`. As `vec2` might be a common choice of name in other libraries, this ensures that we won't have any issues using them in the same project.    
+> using namespaceとか使って甘えちゃいけない
+
 **A good habit is to never add `using namespace` in a header file and leave them exclusively to the .cpp files.**
 
+> 型推論はいいぞって話
 
 #####2.2. [Auto keyword and type inference.](apps/)
 C++ is a strongly typed language meaning that, unlike dynamic languages like JavaScript, you have to give a type to the variable you create (hence the abscence of a `var` keywords like in JS). The introduction of type inference slighly changes that while retaining the safety of a strongly typed language.  
@@ -533,13 +633,19 @@ auto someNumber 		= 123.456f;	// the compiler will see this as a float
 auto someOtherNumber 	= 789.012;	// the compiler will see this as a double
 auto anEmptyRectangle	= Rectf();	// the compiler will see this as a Rectf
 ```
-It sometimes makes the code more readable and in other case saves you from writting very long types. Let's say that we have a map of texture format that we want to iterate:    
+It sometimes makes the code more readable and in other case saves you from writting very long types. Let's say that we have a map of texture format that we want to iterate:
+
+> iterator使ってリーダブルコードにしましょう
+
 ```c++
 // C++11 allows us to write what we used to write like this:
 std::map<string,gl::Texture2d::Format>::iterator it = mTextures.begin();
 // In a much shorter way
 auto it = mTextures.begin();
 ```
+
+> Range-based forとか積極的に使おう
+
 #####2.3. [Range-based loops.](apps/)
 Another really nice new feature in C++11 are Range-Based loops. A Range-For allows you to iterate through the "range" of a container. Basically any standard container that has a `begin()` and a `end()` can be used in a Range-For. It relies on type inference as well and uses the `auto` keyword we've seen previously.  
 ```c++
@@ -548,7 +654,7 @@ for( auto number : numbers ) {
 	console() << number << endl;
 }
 ```
-Again it is especially usefull when using types with a long name: 
+Again it is especially usefull when using types with a long name:
 ```c++
 // This long and hard to read for loop
 for( std::map<string,gl::Texture2d::Format>::iterator it = mTextures.begin(); it != mTextures.end(); ++it ) {
@@ -558,21 +664,32 @@ for( auto texture : mTextures ) {
 }
 ```
 
+> 1. C++は柔軟な言語なので、ミスもある
+
 #####2.4. [Const-correctness and parameter passing.](apps/)
 
 We could write a book about const-correctness and parameter passing in C++ but in very short this is just a good habit to take. It will make your code more readable, self-documented, safer and sometimes more efficient. `Const` basically allows to state and make it clear to yourself and others when something should not be changed or modified. This is something you will see a lot in Cinder.  
 
-Internet is full of articles on this subject but probably the easiest thing to remember is the 4 following points : 
+Internet is full of articles on this subject but probably the easiest thing to remember is the 4 following points :
 
-- Pass an argument by value when it is a **built-in type or a small object** (Passing by value makes a *copy of the object*) : 
+- Pass an argument by value when it is a **built-in type or a small object** (Passing by value makes a *copy of the object*) :
+
+> 1. 小さい情報や、build in typeは値そのまま引数に与えても良い
+
 ```c++
 void firstFunction( int number, bool boolean );
 ```
 - Pass an argument by reference when you want the argument to be **read-write**:
+
+> 1. 引数の値書き換えたり参照したりしたい時は参照渡し
+
 ```c++
 void secondFunction( Rectf &rectangle );
 ```
 - Pass an argument by const reference when you want the argument to be **read-only** (Read-only also ensure that your data *won't be unecessarely copied* when calling the function).
+
+> 1. そうじゃない時は、参照だけ可(constで書き換え不可)の参照渡しにしましょう
+
 ```c++
 void thirdFunction( const vector<gl::Texture> &textures );
 ```
@@ -583,11 +700,13 @@ Only a quick glance at those 3 functions arguments is enough to know what the fu
 ```c++
 class MyClass {
 public:
-	string getName() const;	
+	string getName() const;
 };
 ```
 
 #####2.5. [Override keyword.](apps/)
+
+> Overrideかいとけば、オーバーライドになってない時コンパイル時エラー出してくれるってだけ、常識
 
 The `override` keyword was introduce recently in c++ and using it is another good habit to take. We've seen it used in most apps snippets above and its main purpose is to ensure that you make less mistakes when overriding methods. Adding this keyword after a function clearly states that your intent is to override an existing method of the base class. If the method doesn't exist in the base class, you'll get a nice and clear compile-time error.    
 
@@ -599,6 +718,7 @@ public:
 };
 ```
 
+> 1. `bind()`とかlambdaの話
 
 #####2.6. [Lambdas, std::function and std::bind.](apps/)
 Lambdas and `std::function` are great additions to the standard. We've seen them used previously in the App Settings and Signals sections. A `std::function` is a standard way of representing a reference to a function. They are used to easily pass around callbacks and functions. Unlike traditional function pointers, `std::function` is short, simple and easy to remember. Just pass the signature of the function as the parameter of the template :   
@@ -618,12 +738,12 @@ console() << divideByTen( 100.0f ) << endl; // output 10.0f
 Syntax of lambda functions is not really complicated but introduce some unusual combination of characters :
 ```
 [ capture-list ] ( params ) { body }
-[ capture-list ] ( params ) -> ret { body } 
+[ capture-list ] ( params ) -> ret { body }
 ```
 
 The capture-list comes from the fact that lambdas have their own private scope and are not aware of the context they are written in or what was declared before them. For that reason there is different approaches to passing objects to a lambda scope, as there is different approaches to passing arguments to a function.  
-	
-	- [] captures nothing 
+
+	- [] captures nothing
 	- [this] captures the this pointer by value
 	- [a,&b] where a is captured by value and b is captured by reference.
 	- [=] captures all automatic variables odr-used in the body of the lambda by value
@@ -654,6 +774,11 @@ CinderApp::CinderApp()
 }
 CINDER_APP( CinderApp, RendererGl )
 ```
+
+> 1. メモリ管理しっかりしようの話
+> 2. `auto_ptr`じゃなくて`unique_ptr`を使いましょうの話
+> 3. 所有権共有したい時は`shared_ptr`
+> 4. make_unique<>()みたいなので、簡単に作れるようにもしてある
 
 #####2.7. [Smart Pointers and Cinder's "create pattern".](apps/)
 Cinder relies **a lot** on `shared_ptr`. Unlike other languages C++ doesn't have any *Garbage Collection* system; You have to take care of how you create objects, how do you reserve memory and how do you release it when it's not needed anymore. Fortunately for us C++11 introduced a set of tools to make this much more easy.
@@ -688,13 +813,13 @@ void anotherFunction() {
 	auto ptr = make_shared<Object>(); // ptr.refcount = 1
 	{
 		// we make a copy of it
-		auto ptr2 = ptr; // ptr.refcount = 2	
+		auto ptr2 = ptr; // ptr.refcount = 2
 	} // ptr2 went out of scope and its destructor is called. ptr.refcount goes back to 1
 
 	// We pass ptr to the other function making a copy of it
 	// that get straight away destroyed. Leaving the refcount at one.
 	function( ptr ); // ptr.refcount = 1
-} 
+}
 // ptr destructor is called and ptr.refcount finally reach zero.
 // At that point the actual Object destructor is called and the memory is finally released.
 ```
@@ -711,13 +836,17 @@ public:
 
 **weak_ptr** : `weak_ptrs` are a bit less common, and are used in parallel of a `shared_ptr` to hold a *weak reference* to it. A `weak_ptr` doesn't contribute to the *refcount* of its `shared_ptr`. It is most of the time used to break dependency cycles (ex. let's say you have a tree where each node has a `shared_ptr` to each of their children. If the children also *own* the reference to their parent with a `shared_ptr`, you'll create a cycle and nothing will ever be released. Slightly more difficult to explain or understand but their use is very specific and much more rare than the two other kinds of smart pointers).
 
+> 1. Method Chainingでオブジェクトのset~~系のメソッドとかつなげてかける
+> 2. 別に新しい概念じゃないけど、oFとかできなかったんじゃ
+> 3. Optionsキーワードで簡単に実装できる
+
 #####2.8. [Method chaining, Format and Options.](apps/)
 Method chaining has nothing new or modern but is worth mentioning as it is used in a lot of places as well in Cinder. Method chaining is some sort of syntactic sugar that allows to call a series of method in a single expression or line. It can usually been seen in Cinder with setters of certain small classes. Most `Options` or `Format` classes has this syntactic sugar.  
 ```c++
 // We've seen it previously used with the `Window::Format` class, where :
 auto windowFormat0 = Window::Format().size( ivec2( 256 ) ).pos( ivec2( 0, 40 ).title( "WindowTitle" );
 
-// Replaces the longer : 
+// Replaces the longer :
 auto windowFormat1 = Window::Format();
 windowFormat1.setSize( ivec2( 256 ) );
 windowFormat1.setPosition( ivec2( 0, 40 ) );
@@ -726,7 +855,7 @@ windowFormat1.setTitle( "WindowTitle" );
 // And can of course be used as the argument of a function :
 createWindow( windowFormat1 );
 createWindow( Window::Format().size( ivec2( 256 ) ).pos( ivec2( 0, 40 ).title( "WindowTitle" ) );
-``` 
+```
 
 It is usually implemented simply by having short versions of setters methods that instead of being of the `void` type return a reference to the object itself :
 ```c++
@@ -744,6 +873,10 @@ public :
 auto option = Options().name( "Pastrami" ).position( vec2( 10.0f ) ).radius( 1.25f );
 
 ```
+
+> 1. コード長くなるかもだけど、何やってるかが見えやすくなる
+
+
 ___
 ###3. User Interface
 The very first actual user of User Interfaces is the developer. For that reason and because in a lot of cases you need a way to interact with the app and be able to test thing out; an easy to use UI library is a must.  
@@ -778,7 +911,7 @@ void CinderApp::update()
  	}
 }
 ```
-One really nice thing with a state-less UI, is the fact that it can really easily reflect the state of your app without any extra-work. Let say that you have a vector of Objects that can be created, deleted or modified: 
+One really nice thing with a state-less UI, is the fact that it can really easily reflect the state of your app without any extra-work. Let say that you have a vector of Objects that can be created, deleted or modified:
 
 ```c++
 void CinderApp::update()
@@ -838,7 +971,7 @@ trimesh.appendTriangle( 0, 1, 2 );
 
 #####4.3. [Batch.](/)
 
-Today graphics in OpenGL are governed by `Vertex Buffer Objects`, `Glsl Programs` and `Vertex Arrays`. The first one describe a list of vertices, its properties (like colors or texture coordinates) and how they are connected to form faces and polygons and the second one describes how the faces of the first are transformed and shaded. It replace the old fixed-function pipeline where a Glsl Program now has to be bound all the time for anything to get rendered. Simply put, the last one allows to group things together in a way that the Graphic Card understand. 
+Today graphics in OpenGL are governed by `Vertex Buffer Objects`, `Glsl Programs` and `Vertex Arrays`. The first one describe a list of vertices, its properties (like colors or texture coordinates) and how they are connected to form faces and polygons and the second one describes how the faces of the first are transformed and shaded. It replace the old fixed-function pipeline where a Glsl Program now has to be bound all the time for anything to get rendered. Simply put, the last one allows to group things together in a way that the Graphic Card understand.
 
 Cinder provides an easy interface that wraps and takes care of all the above called a `gl::Batch`.
 
