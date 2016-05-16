@@ -12,7 +12,6 @@
 #include "Watchdog.h"
 #include "CinderImGui.h"
 #include "runtime_app.h"
-#include "cinder/Log.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -43,77 +42,32 @@ public:
 	vec4				mBackgroundColor;
 	
 	gl::GlslProgRef		mGlslProg;
-	gl::BatchRef		mBatch, mPlane,mmBatch;
+	gl::BatchRef		mBatch, mPlane;
 	gl::Texture2dRef	mTexture;
 	
 	CameraPersp			mCamera;
 	CameraUi			mCameraUi;
-
-    float mBackground;
-    float mBackgroundcolor[4];
-
 };
 
 void TestProjectApp::setup()
 {
-	// getWindow()->setAlwaysOnTop();
-	
 	// Initialize the Camera and its UI
 	mCamera = CameraPersp( getWindowWidth(), getWindowHeight(), 50.0f, 0.1f, 100.0f );
 	mCamera.lookAt( vec3(5,2,0), vec3(0) );
 	mCameraUi = CameraUi( &mCamera );
-<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
-
-
-    vector<vec3> positions;
-    vector<ColorA>colors;
-
-	// create batch advanced
-	mBatch = gl::Batch::create( geom::Cone(), gl::getStockShader( gl::ShaderDef().lambert() ) );
-
-    auto bufferLayout = geom::BufferLayout();
-    bufferLayout.append(geom::POSITION, 3, 0, 0);
-    vector<vec3> points = {vec3(0.0f)};
-    auto vbo = gl::Vbo::create(GL_ARRAY_BUFFER,points);
-    auto sourece = geom::Sphere().subdivisions(64);
-    auto vboMesh = gl::VboMesh::create(points.size(),GL_POINTS,{
-        {bufferLayout,vbo}
-    });
-    auto glslProg = gl::getStockShader(gl::ShaderDef().lambert());
-    mmBatch = gl::Batch::create(vboMesh,glslProg);
-
-
-    //Plane Batch
-=======
 	
 	// create plane batch
->>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 	mPlane = gl::Batch::create( geom::Plane().subdivisions( ivec2( 64 ) ).size( vec2( 100.0f ) ) >> geom::Lines(), gl::getStockShader( gl::ShaderDef().lambert() ) );
 	
 	// load texture
 	mTexture = gl::Texture2d::create( loadImage( loadAsset( "iceland.jpg" ) ) );
-
-
-    mBackground = 0.5f;
-
+	
 	// initialize ui
 	ui::initialize();
-<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
-
-
-
-    try {
-        mGlslProg = gl::GlslProg::create( app::loadAsset( "shader.vert" ), app::loadAsset( "shader.frag" ) );
-        mGlslProg->uniform( "uTexture", 0 );
-    }
-    catch( const std::exception &e ) {
-        CI_LOG_EXCEPTION( "exception caught loading fxaa.vert / frag", e );
-    }
-
-
-=======
+	
 	
 	// create advanced batch
+	
 	// Create my data
 	vector<vec3> positions;
 	vector<ColorA> colors;
@@ -139,52 +93,26 @@ void TestProjectApp::setup()
 		{ colorsLayout, colorsVbo }
 	} );
 	
-	// watch the shader
-	wd::watch( "shader.*", [this, vboMesh]( const fs::path &path ) {
-		try {
-			// create a shader
-			auto glslProg	= gl::GlslProg::create( gl::GlslProg::Format()
-											   .vertex( loadAsset( "shader.vert" ) )
-											   .fragment( loadAsset( "shader.frag" ) ) );
-			// linking my shader to my vbo mesh
-			if( glslProg ) {
-				mBatch = gl::Batch::create( vboMesh, glslProg );
-			}
-		}
-		catch( gl::GlslProgExc exc ) {
-			console() << exc.what() << endl;
-		}
-	} );
+	// create a shader
+	auto glslProg	= gl::GlslProg::create( gl::GlslProg::Format()
+										   .vertex( loadAsset( "shader.vert" ) )
+										   .fragment( loadAsset( "shader.frag" ) ) );
+	
+	// linking my shader to my vbo mesh
+	mBatch			= gl::Batch::create( vboMesh, glslProg );
 	
 	mBackgroundColor = vec4(0.5f);
->>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 }
 
 void TestProjectApp::update()
 {
-<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
-	{//これでくくると違ったものが別々に現れる
-		ui::ScopedWindow window( "Params" );
-	}
-
-    ui::DragFloat("Background", &mBackground,0.01f,0.0f,1.0f);
-    ui::Text("SomeText");
-    ui::ColorEdit4("BackgroundColor", &mBackgroundcolor[0]);
-    ui::Image(mTexture, mTexture->getSize()/4);
-=======
 
 	
->>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 }
-
 void TestProjectApp::draw()
 {
 	
-<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
-	gl::clear( Color::gray( mBackground ) );
-=======
 	gl::clear( Color::black() );
->>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 	
 	gl::ScopedMatrices scopedMatrices;
 	gl::ScopedDepth	scopedDepth( true );
@@ -194,25 +122,9 @@ void TestProjectApp::draw()
 	gl::ScopedTextureBind scopedTex0( mTexture );
 	gl::ScopedColor scopedColor( ColorA::gray( 1.0f, 0.2f ) );
 	
-	if( mBatch ) {
-		mBatch->draw();
-	}
-	mPlane->draw();
-    mmBatch->draw();
-
-
-    //---------
-    if( ! mGlslProg )
-        return;
-
-    const int w = getWindowWidth();
-    const int h = getWindowHeight();
-
-    gl::ScopedGlslProg glslScope( mGlslProg );
-    mGlslProg->uniform( "uExtends", vec4( 1.0f / w, 1.0f / h, (float) w, (float) h ) );
+	mBatch->draw();
+	//mPlane->draw();
 }
-
-
 
 void TestProjectApp::mouseDown( MouseEvent event ) 
 {
@@ -258,17 +170,8 @@ void TestProjectApp::load( cereal::BinaryInputArchive &ar )
 {
 }
 
-<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
-
-
-CINDER_RUNTIME_APP( TestProjectApp, RendererGl, App::SettingsFn()
+CINDER_RUNTIME_APP( TestProjectApp, RendererGl( RendererGl::Options().msaa( 8 ) ), App::SettingsFn()
 #ifndef DISABLE_RUNTIME_COMPILED_APP
-=======
-CINDER_RUNTIME_APP( TestProjectApp, RendererGl( RendererGl::Options().msaa( 8 ) ), []( App::Settings *settings ) {
-	//settings->setAlwaysOnTop();
-}
-#ifndef DISABLE_RUNTIME_COMPILATION
->>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 // The interpreter needs to know about the blocks we are using
 ,[] ( cling::Interpreter *interpreter ) {
    // We need to find the path starting from the location of the app

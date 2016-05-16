@@ -1,6 +1,11 @@
 # FlyingTokyo 19 : An Introduction to Cinder, Hot-Reloading and Runtime-Compiled C++
+<<<<<<< HEAD
 
 > これはFlyingTokyo19で使われたものにコメントを入れたものです
+=======
+test
+_Japanese translation by the amazing **Teiichi Ota**_
+>>>>>>> upstream/master
 
 First thing first; Please clone this repository, start the install script and go grab yourself a cup of coffee (this is going to clone, build and install Cinder, Llvm, Clang, Cling and other smaller piece of code ... it is going to take a while!) :  
 
@@ -1025,6 +1030,7 @@ batch->draw();
 
 ___
 ###5. Runtime-Compiled C++
+<<<<<<< HEAD
 
 
 ##その他
@@ -1043,3 +1049,5 @@ ___
 -> さらにそれをロードした3dデータに適応可能、半端ない
 
 8. geomModみたいなやつに描画するオブジェクト増やしたりした群として保存できる
+=======
+>>>>>>> upstream/master
