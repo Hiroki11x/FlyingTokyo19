@@ -36,7 +36,7 @@ void RuntimeAppSettingsApp::setup()
 
 void RuntimeAppSettingsApp::draw()
 {
-	gl::clear( Color( 0, 0, 0 ) );
+	gl::clear( Color( 0, 0, 1 ) );
 	
 	ui::ScopedWindow window( "RuntimeApp" );
 	ui::Text( "Hello!" );
