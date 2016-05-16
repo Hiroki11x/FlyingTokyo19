@@ -5,6 +5,8 @@
 #include "cinder/ObjLoader.h"
 #include "cinder/Rand.h"
 
+#include "Simplex.h"
+
 #include <cereal/archives/binary.hpp>
 #include "CinderCereal.h"
 #define RUNTIME_APP_CEREALIZATION
@@ -38,13 +40,13 @@ public:
 	
 	virtual void save( cereal::BinaryOutputArchive &ar );
 	virtual void load( cereal::BinaryInputArchive &ar );
-	
-	float				mBackground;
-	vec4				mBackgroundColor;
+
 	
 	gl::GlslProgRef		mGlslProg;
 	gl::BatchRef		mBatch, mPlane,mmBatch;
 	gl::Texture2dRef	mTexture;
+	
+	vector<vec3>		mPositions;
 	
 	CameraPersp			mCamera;
 	CameraUi			mCameraUi;
@@ -115,28 +117,21 @@ void TestProjectApp::setup()
 	
 	// create advanced batch
 	// Create my data
-	vector<vec3> positions;
-	vector<ColorA> colors;
 	for( size_t i = 0; i < 10000; ++i ) {
-		positions.push_back( vec3( 0.0f, 1.0f, 0.0f ) + randVec3() * randFloat( 0, 1 ) );
-		colors.push_back( ColorA( randFloat( 0.9f, 1.0f ), randFloat( 0.6f, 0.8f ), randFloat( 0.9f, 1.0f ), 1.0f ) );
+		mPositions.push_back( vec3( 0.0f, 1.0f, 0.0f ) + randVec3() * randFloat( 0, 1 ) );
 	}
 	
 	// Describe the data in terms of what it is, what dimensions it has, etc
 	auto positionsLayout = geom::BufferLayout();
 	positionsLayout.append( geom::POSITION, 3, 0, 0 );
-	auto colorsLayout = geom::BufferLayout();
-	colorsLayout.append( geom::COLOR, 4, 0, 0 );
 	
 	// Upload my data to the GPU through a VBO
-	auto positionsVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions );
-	auto colorsVbo = gl::Vbo::create( GL_ARRAY_BUFFER, colors );
+	auto positionsVbo = gl::Vbo::create( GL_ARRAY_BUFFER, mPositions, GL_DYNAMIC_DRAW );
 	
 	// Link everything together in a VboMesh
-	auto vboMesh	= gl::VboMesh::create( positions.size(), GL_POINTS,
+	auto vboMesh	= gl::VboMesh::create( mPositions.size(), GL_POINTS,
 	{
-		{ positionsLayout, positionsVbo },
-		{ colorsLayout, colorsVbo }
+		{ positionsLayout, positionsVbo }
 	} );
 	
 	// watch the shader
@@ -159,13 +154,17 @@ void TestProjectApp::setup()
 	} );
 	
 	gl::pointSize( 15.0f );
+<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
 	
 	mBackgroundColor = vec4(0.5f);
+>>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
+=======
 >>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 }
 
 void TestProjectApp::update()
 {
+<<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
 <<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
 <<<<<<< HEAD:myapps/NaganumaTestProject/src/TestProjectApp.cpp
 	{//これでくくると違ったものが別々に現れる
@@ -189,6 +188,25 @@ void TestProjectApp::update()
 	}
 >>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 	
+>>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
+=======
+	ui::Value( "FPS", (int) getAverageFps() );
+	
+	// Here we map the GPU memory and access to change the
+	// positions of the particles
+	{
+		auto vboMesh = mBatch->getVboMesh();
+		auto mappedPosition = vboMesh->mapAttrib3f( geom::POSITION );
+		for( size_t i = 0; i < mPositions.size(); ++i ) {
+			// Animate the particles on the CPU
+			mPositions[i] += Simplex::curlNoise( mPositions[i] * 0.1f + (float) i * 0.0001f ) * 0.025f;
+			
+			// Update the GPU positions;
+			*mappedPosition = mPositions[i];
+			mappedPosition++;
+		}
+		mappedPosition.unmap();
+	}
 >>>>>>> upstream/master:apps/TestProject/src/TestProjectApp.cpp
 }
 
@@ -258,6 +276,7 @@ void TestProjectApp::keyUp( KeyEvent event )
 }
 void TestProjectApp::resize() 
 {
+	mCamera.setAspectRatio( getWindowAspectRatio() );
 }
 void TestProjectApp::fileDrop( FileDropEvent event ) 
 {
