@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/hirokinaganuma/Desktop/FlyingTokyo19/myapps/MySample001/src/TestProjectApp.cpp \
+  /Users/hirokinaganuma/Desktop/FlyingTokyo19/myapps/MySample001_Shader/src/TestProjectApp.cpp \
   ../../../cinder/include/cinder/app/RendererGl.h \
   ../../../cinder/include/cinder/CameraUi.h \
   ../../../cinder/include/cinder/ObjLoader.h \

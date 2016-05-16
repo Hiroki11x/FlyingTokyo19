@@ -100,6 +100,7 @@ void TestProjectApp::setup()
     mBatch			= gl::Batch::create( vboMesh, glslProg );
 
     mBackgroundColor = vec4(0.5f);
+    gl::pointSize(8.0f);
 }
 
 void TestProjectApp::update()
