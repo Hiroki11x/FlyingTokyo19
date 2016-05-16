@@ -1,0 +1,79 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1F4B7E86D9B83AEBCAF78F9309F675C9A9842A21",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C2E3EEDDF7D33C9D21B8959E3E82FF5CA14DCD11" : 0,
+    "32370FB72059F3151E3AC6013DC69F52ABF8D85B" : 0,
+    "2DEE13513E787DA04AD2C0CB3D93F067C441B880" : 0,
+    "9DFBCA471AFD1210F113A66127AB354817A2C66C" : 0,
+    "AD4B458D0D225ED63FAE0155615993B7D3ECE020" : 0,
+    "F79099EC825B019EC00540A1BB2270FA9DB23062" : 0,
+    "0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F" : 0,
+    "13AA8C2C1761DFCEAE9937F22F2EA7D36DE71F47" : 0,
+    "1F4B7E86D9B83AEBCAF78F9309F675C9A9842A21" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "8F52EAA8-7C9D-47FE-8E6F-318636ABD9B3",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C2E3EEDDF7D33C9D21B8959E3E82FF5CA14DCD11" : "FlyingTokyo19\/cinder\/blocks\/Watchdog\/",
+    "32370FB72059F3151E3AC6013DC69F52ABF8D85B" : "FlyingTokyo19\/cinder\/blocks\/SimplexNoise\/",
+    "2DEE13513E787DA04AD2C0CB3D93F067C441B880" : "FlyingTokyo19\/cinder\/blocks\/Cinder-ImGui\/",
+    "9DFBCA471AFD1210F113A66127AB354817A2C66C" : "FlyingTokyo19\/cinder\/blocks\/Cinder-Cereal\/",
+    "AD4B458D0D225ED63FAE0155615993B7D3ECE020" : "FlyingTokyo19\/cinder\/",
+    "F79099EC825B019EC00540A1BB2270FA9DB23062" : "FlyingTokyo19\/cinder\/blocks\/Cinder-Runtime\/",
+    "0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F" : "FlyingTokyo19\/cinder\/blocks\/Cinder-ImGui\/lib\/imgui\/",
+    "13AA8C2C1761DFCEAE9937F22F2EA7D36DE71F47" : "FlyingTokyo19\/cinder\/blocks\/SpacePartitioning\/",
+    "1F4B7E86D9B83AEBCAF78F9309F675C9A9842A21" : "FlyingTokyo19\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "NaganumaTestProject",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "myapps\/MySample001_Shader\/xcode\/NaganumaTestProject.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ocornut\/imgui.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/SpacePartitioning.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "13AA8C2C1761DFCEAE9937F22F2EA7D36DE71F47"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Hiroki11x\/FlyingTokyo19.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1F4B7E86D9B83AEBCAF78F9309F675C9A9842A21"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/Cinder-ImGui.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2DEE13513E787DA04AD2C0CB3D93F067C441B880"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/SimplexNoise.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "32370FB72059F3151E3AC6013DC69F52ABF8D85B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/Cinder-Cereal.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9DFBCA471AFD1210F113A66127AB354817A2C66C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/Cinder.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AD4B458D0D225ED63FAE0155615993B7D3ECE020"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/Watchdog.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C2E3EEDDF7D33C9D21B8959E3E82FF5CA14DCD11"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/simongeilfus\/Cinder-Runtime.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F79099EC825B019EC00540A1BB2270FA9DB23062"
+    }
+  ]
+}
