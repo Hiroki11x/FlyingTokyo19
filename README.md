@@ -1,6 +1,9 @@
 # FlyingTokyo 19 : An Introduction to Cinder, Hot-Reloading and Runtime-Compiled C++
 
+> これはFlyingTokyo19で使われたものにコメントを入れたものです
+
 First thing first; Please clone this repository, start the install script and go grab yourself a cup of coffee (this is going to clone, build and install Cinder, Llvm, Clang, Cling and other smaller piece of code ... it is going to take a while!) :  
+
 ```shell
 git clone https://github.com/simongeilfus/FlyingTokyo19.git
 cd FlyingTokyo19
@@ -1023,5 +1026,20 @@ batch->draw();
 ___
 ###5. Runtime-Compiled C++
 
-> ここに全部まとまってる
-> https://github.com/simongeilfus/Cinder-Runtime
+
+##その他
+1. Photoshopと連携できるよ
+2. Textureすごい
+3. Lightingすごい
+4. Batch使うことでやばい描画も耐えてる感じ
+
+5. wd::watchを使うとasset fileの更新があったこと検知できる
+-> json取得とかで使えそう
+-> photoshopでの修正とか、Cinema4Dとか
+
+6. ozone3dとかいうサイトが参考になる？
+
+7. namespace geomにあるのが3dオブジェクトを簡単に扱える、twist scale transformみたいな合わせ技が可能
+-> さらにそれをロードした3dデータに適応可能、半端ない
+
+8. geomModみたいなやつに描画するオブジェクト増やしたりした群として保存できる
