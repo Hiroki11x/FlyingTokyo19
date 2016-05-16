@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/hirokinaganuma/Desktop/FlyingTokyo19/myapps/2D_Particle/src/TestProjectApp.cpp \
+  /Users/hirokinaganuma/Desktop/FlyingTokyo19/myapps/2D_Particle_Before/src/TestProjectApp.cpp \
   ../../../cinder/include/cinder/app/RendererGl.h \
   ../../../cinder/include/cinder/CameraUi.h \
   ../../../cinder/include/cinder/ObjLoader.h \

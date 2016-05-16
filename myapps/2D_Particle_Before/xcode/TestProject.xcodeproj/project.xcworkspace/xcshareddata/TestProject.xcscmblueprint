@@ -28,7 +28,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "TestProject",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "myapps\/2D_Particle\/xcode\/TestProject.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "myapps\/2D_Particle_Before\/xcode\/TestProject.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ocornut\/imgui.git",
