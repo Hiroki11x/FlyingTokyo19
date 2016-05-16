@@ -70,7 +70,7 @@ void TestProjectApp::setup()
     vector<ColorA> colors;
     for( size_t i = 0; i < 1000000; ++i ) {//particle作る際の初期ランダム生成
         positions.push_back( randVec3() * randFloat( 0, 100 ) );//スカラをかけてる
-        colors.push_back( ColorA( randFloat( 0.6f, 1.0f ), randFloat( 0.1f, 0.3f ), randFloat( 0.6f, 1.0f ), 0.2f ) );
+        colors.push_back( ColorA( randFloat( 0.6f, 1.0f ), randFloat( 0.1f, 0.3f ), randFloat( 0.6f, 1.0f ), 0.7f ) );
     }
 
     // Describe the data in terms of what it is, what dimensions it has, etc
@@ -95,10 +95,11 @@ void TestProjectApp::setup()
                                           } );
 
     // create a shader
-    //glslProgはGlslProgRef型
+    //glslProgはGlslProgRef型で準備、この領域?(shader)にvboMeshぶちこむのかな？
     auto glslProg	= gl::getStockShader( gl::ShaderDef().color() );
 
     // linking my shader to my vbo mesh
+    //batchとしてshaderとmeshをリンク
     mBatch			= gl::Batch::create( vboMesh, glslProg );
 
     mBackgroundColor = vec4(0.5f);
@@ -112,17 +113,17 @@ void TestProjectApp::update()
 void TestProjectApp::draw()
 {
 
-    gl::clear( Color::black() );
+    gl::clear( Color::black() );//ofBackground(0);
 
-    gl::ScopedMatrices scopedMatrices;
-    gl::ScopedDepth	scopedDepth( true );
-    gl::setMatrices( mCamera );
+    gl::ScopedMatrices scopedMatrices; //ofPushMatrix();
+    gl::ScopedDepth	scopedDepth( true ); //ofEnableDepthTest();
+    gl::setMatrices( mCamera ); //cam.begin(); -> cam.end()書かなくて良い
 
-    gl::ScopedBlendAdditive scopedBlend;
-    gl::ScopedTextureBind scopedTex0( mTexture );
-    gl::ScopedColor scopedColor( ColorA::gray( 1.0f, 0.2f ) );
+    gl::ScopedBlendAdditive scopedBlend; //ofEnableBlendMode(hoge)みたいな
+    gl::ScopedTextureBind scopedTex0( mTexture ); //<-これ何
+    gl::ScopedColor scopedColor( ColorA::gray( 1.0f, 0.2f ) ); //ofSetColor(...)
 
-    mBatch->draw();
+    mBatch->draw();//fbo.draw()的な
 }
 
 void TestProjectApp::mouseDown( MouseEvent event )
