@@ -101,8 +101,10 @@ void TestProjectApp::setup()
 	//mScene.push_back( gl::Batch::create( buildings, gl::getStockShader( gl::ShaderDef().lambert() ) ) );
 	//mScene.push_back( gl::Batch::create( geom::Sphere(), gl::getStockShader( gl::ShaderDef().lambert() ) ) );
 	
+	// COPY THIS!
 	// Add the skybox
 	mScene.push_back( gl::Batch::create( geom::Sphere().radius( 100.0f ), gl::getStockShader( gl::ShaderDef().lambert() ) ) );
+	//!
 	
 	// Add trees
 	geom::SourceMods tree;
@@ -142,19 +144,24 @@ void TestProjectApp::update()
 		static float       uFogDensity = 10.0f;
 		static vec3        uSunColor = vec3( 1.0f, 0.77, 0.60 );
 		static vec3        uSunDirection = vec3( 0, 0.3f, -1.0f );
-		static float       uSunDispertion = 3.0f;
+		static float       uSunDispertion = 0.2f;
 		static float       uSunIntensity = 0.16f;
 		static vec3        uInscatteringCoeffs = vec3( 0.0f );
+		
+		vec4 sunDir = glm::normalize( mCamera.getViewMatrix() * vec4( uSunDirection.x, uSunDirection.y, uSunDirection.z, 1.0f ) );
 		
 		ui::ColorEdit3( "Fog Color", &uFogColor[0] );
 		ui::ColorEdit3( "Sun Color", &uSunColor[0] );
 		ui::ColorEdit3( "Inscattering", &uInscatteringCoeffs[0] );
 		ui::DragFloat( "FogDensity", &uFogDensity, 0.1f, 0.0f, 100.0f );
+		ui::DragFloat( "SunDispertion", &uSunDispertion, 0.01f, 0.00001f, 10.0f );
+		ui::DragFloat( "SunIntensity", &uSunIntensity, 0.01f, 0.000001f, 2.0f );
+		ui::DragFloat3( "SunDirection", &uSunDirection[0], 0.01f, -10.0f, 10.0f );
 		
 		mGlslProg->uniform( "uFogColor", uFogColor );
 		mGlslProg->uniform( "uFogDensity", uFogDensity );
 		mGlslProg->uniform( "uSunColor", uSunColor );
-		mGlslProg->uniform( "uSunDirection", uSunDirection );
+		mGlslProg->uniform( "uSunDirection", vec3( sunDir ) );
 		mGlslProg->uniform( "uSunDispertion", uSunDispertion );
 		mGlslProg->uniform( "uSunIntensity", uSunIntensity );
 		mGlslProg->uniform( "uInscatteringCoeffs", uInscatteringCoeffs );
